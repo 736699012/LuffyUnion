@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">TaobaoUnion</string>
+    <string name="text_home">首页</string>
+    <string name="text_selected">精选</string>
+    <string name="text_red_packet">特惠</string>
+    <string name="text_search">搜索</string>
+    <string name="search_tips_text">搜索喜欢的东西...</string>
+    <string name="text_network_error_tips">网络异常...点击重试</string>
+    <string name="text_offer_prise">省%d元</string>
+    <string name="text_goods_sell_count">%d人购买</string>
+    <string name="text_goods_before_offer_price">￥%s</string>
+    <string name="text_ticket">淘口令</string>
+    <string name="text_get_ticket">领券</string>
+    <string name="text_error_tips">网络错误,点击重试</string>
+    <string name="text_choice_title">精选内容</string>
+    <string name="text_on_sell_title">特惠内容</string>
+    <string name="text_search_cancel">取消</string>
+    <string name="text_search_history">搜索历史</string>
+    <string name="text_recommend_keywords">热门推荐</string>
+    <string name="text_collect">个人收藏</string>
+    <string name="text_me">我</string>
+    <string name="text_person_msg">个人信息</string>
+    <string name="text_user_name">用户名:</string>
+    <string name="text_save">保存</string>
+    <string name="text_person_desc">个人介绍</string>
+    <string name="text_foot_print">足迹</string>
+    <string name="text_clear">清空</string>
+    <string name="text_flash_sale_coupon">限时领券</string>
+    <string name="text_login_tx">账号登陆</string>
+
+</resources>

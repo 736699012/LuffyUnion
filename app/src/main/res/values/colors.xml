@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#EED2EE</color>
+    <color name="colorPrimaryDark">#EED2EE</color>
+    <color name="colorAccent">#EED2EE</color>
+    <color name="colorGray">#7B7B7B</color>
+    <color name="colorTabNormal">#aaffffff</color>
+    <color name="colorSelected">#ffffff</color>
+    <color name="color_tmall">#EED2EE</color>
+    <color name="color_EFEEEE">#EFEEEE</color>
+    <color name="color_text">#EEA9B8</color>
+    <color name="color_flash_bg">#FFFAFA</color>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_EFEEEE">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/left_category_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingStart="8dp"
+            android:clipToPadding="false"
+            android:paddingEnd="8dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/left_category_list">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/right_content_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp" />
+
+            <com.example.taobaounion.ui.custom.LoadingView
+                android:id="@+id/choice_loading"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/loading" />
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>
