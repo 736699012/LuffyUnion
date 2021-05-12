@@ -21,6 +21,7 @@ import com.example.taobaounion.view.ICollectCallBack;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -122,6 +123,7 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
 
     @Override
     public void onSuccess(List<Collect> list) {
+        Collections.reverse(list);
         mCollectionAdapter.setData(list);
         mLoadingView.setVisibility(View.GONE);
         mEmpty.setVisibility(View.GONE);

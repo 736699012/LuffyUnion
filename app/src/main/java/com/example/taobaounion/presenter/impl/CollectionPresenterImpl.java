@@ -4,6 +4,7 @@ import com.example.taobaounion.model.bean.CollectionBean;
 import com.example.taobaounion.model.dao.Collect;
 import com.example.taobaounion.model.event.CollectEvent;
 import com.example.taobaounion.presenter.interfaces.ICollectionPresenter;
+import com.example.taobaounion.utils.CollectManger;
 import com.example.taobaounion.utils.CollectionUtils;
 import com.example.taobaounion.utils.JsonCacheUtil;
 import com.example.taobaounion.utils.ToastUtil;
@@ -44,6 +45,10 @@ public class CollectionPresenterImpl implements ICollectionPresenter {
 //        postEvent(new CollectEvent(lists));
         Collect collect = new Collect(collectionBean);
         collect.setUserId(UserManger.getInstance().getUser().getObjectId());
+        List<Collect> collectList = CollectManger.getInstance().getCollectList();
+        if (collectList.contains(collect)) {
+            return;
+        }
         collect.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {

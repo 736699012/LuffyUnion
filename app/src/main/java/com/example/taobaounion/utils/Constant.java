@@ -9,6 +9,7 @@ public class Constant {
     public static final String IMG_BASE_URL = "https:";
     public static final String TAOBAO_PACKEDG = "com.taobao.taobao";
     public static final int SUCCESS_CODE = 10000;
+    public static final String KEY_FISRT_ENTER = "KEY_FISRT_ENTER";
 
     public static final String DEFAULT_USER_NAME = "lf87423";
 

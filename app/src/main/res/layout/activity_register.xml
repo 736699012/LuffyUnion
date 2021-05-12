@@ -24,6 +24,7 @@
         android:layout_below="@id/text_register_tx"
         android:layout_marginTop="50dp"
         android:hint="用户名"
+        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:maxLines="1"
         android:textSize="20sp" />
 
@@ -34,6 +35,8 @@
         android:layout_below="@id/register_username"
         android:layout_marginTop="40dp"
         android:hint="密码"
+        android:inputType="textPassword"
+        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.+-*/"
         android:maxLines="1"
         android:textSize="20sp" />
 

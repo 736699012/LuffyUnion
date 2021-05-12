@@ -23,6 +23,10 @@ public class JsonCacheUtil {
         mGson = new Gson();
     }
 
+    public SharedPreferences getSharedPreferences() {
+        return mSharedPreferences;
+    }
+
     public void saveCache(String key, Object value) {
         this.saveCache(key, value, -1L);
     }

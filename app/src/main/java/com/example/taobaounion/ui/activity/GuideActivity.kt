@@ -10,19 +10,20 @@ import cn.bmob.v3.Bmob
 import com.example.taobaounion.R
 import com.example.taobaounion.model.bean.IBaseInfo
 import com.example.taobaounion.ui.adapter.HomePagerLooperAdapter
+import com.example.taobaounion.utils.Constant
+import com.example.taobaounion.utils.JsonCacheUtil
 import com.example.taobaounion.utils.PresentManger
 import com.example.taobaounion.utils.SizeUtils
 import com.example.taobaounion.view.ILoginCallBack
 import kotlinx.android.synthetic.main.activity_guide.*
 
-class GuideActivity : AppCompatActivity(), HomePagerLooperAdapter.OnLooperItemClickListen, ILoginCallBack {
+class GuideActivity : AppCompatActivity(), HomePagerLooperAdapter.OnLooperItemClickListen {
     private var mAdapter: HomePagerLooperAdapter? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guide)
-        Bmob.initialize(this,"d018d65a88bc6dfc85a7b6804e9c758d")
         initView()
         initListen()
         bindData()
@@ -80,11 +81,14 @@ class GuideActivity : AppCompatActivity(), HomePagerLooperAdapter.OnLooperItemCl
             override fun onPageScrollStateChanged(state: Int) {}
         })
         guide_enter.setOnClickListener {
-            val personDescPresenter = PresentManger.getInstance().personDescPresenter
-            val detailDesc = personDescPresenter.detailDesc
-            val loginPresenter = PresentManger.getInstance().loginPresenter
-            loginPresenter.registerViewCallBack(this)
-            loginPresenter.checkLogin(detailDesc?.name, detailDesc?.password)
+
+            val sharedPreferences = JsonCacheUtil.getInstance().sharedPreferences
+            val edit = sharedPreferences.edit()
+            edit.putBoolean(Constant.KEY_FISRT_ENTER, false)
+            edit.apply()
+            startActivity(Intent(this, SplashActivity::class.java))
+            finish()
+
         }
     }
 
@@ -108,16 +112,6 @@ class GuideActivity : AppCompatActivity(), HomePagerLooperAdapter.OnLooperItemCl
     }
 
     override fun onLooperItemClickListen(dataBean: IBaseInfo?) {
-
     }
 
-    override fun onLoginSuccess() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
-
-    override fun onLoginError() {
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-    }
 }

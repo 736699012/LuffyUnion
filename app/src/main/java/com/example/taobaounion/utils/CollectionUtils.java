@@ -1,6 +1,5 @@
 package com.example.taobaounion.utils;
 
-import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.example.taobaounion.R;
@@ -25,26 +24,21 @@ public class CollectionUtils {
         }
         collectionBean.setUserId(UserManger.getInstance().getUser().getObjectId());
         Collect collect = isCollected(collectionBean);
-        boolean isCollectI = false;
-        if (!TextUtils.isEmpty(collect.getObjectId())) {
-            isCollectI = true;
-        }
-        if (isCollectI) {
+        final boolean[] isCollectI = {collect != collectionBean};
+        if (isCollectI[0]) {
             imageView.setImageResource(R.mipmap.collected);
+        }else{
+            imageView.setImageResource(R.mipmap.collect);
         }
         imageView.setOnClickListener(v -> {
-            Collect collect1 = isCollected(collectionBean);
-            boolean isCollect = false;
-            if (!TextUtils.isEmpty(collect.getObjectId())) {
-                isCollect = true;
-            }
-            if (isCollect) {
-                mCollectionPresenter.deleteCollect(collect1);
+            if (isCollectI[0]) {
+                mCollectionPresenter.deleteCollect(collect);
                 imageView.setImageResource(R.mipmap.collect);
-
+                isCollectI[0] = false;
             } else {
-                mCollectionPresenter.addCollect(collect1);
+                mCollectionPresenter.addCollect(collect);
                 imageView.setImageResource(R.mipmap.collected);
+                isCollectI[0] = true;
             }
         });
     }
@@ -71,9 +65,11 @@ public class CollectionUtils {
             public void done(List<Collect> list, BmobException e) {
                 if (e == null) {
                     List<Collect> filter = new ArrayList<>();
-                    for (Collect temp : list) {
-                        if (temp.getUserId().equals(UserManger.getInstance().getUser().getObjectId())) {
-                            filter.add(temp);
+                    if(list != null){
+                        for (Collect temp : list) {
+                            if (temp.getUserId().equals(UserManger.getInstance().getUser().getObjectId())) {
+                                filter.add(temp);
+                            }
                         }
                     }
                     CollectManger.getInstance().setCollectList(filter);
