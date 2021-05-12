@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.taobaounion.R;
-import com.example.taobaounion.model.bean.CollectionBean;
 import com.example.taobaounion.model.bean.IBaseInfo;
 import com.example.taobaounion.model.bean.ILinearInfo;
+import com.example.taobaounion.model.dao.Collect;
 import com.example.taobaounion.utils.CollectionUtils;
 import com.example.taobaounion.utils.LogUtils;
 import com.example.taobaounion.utils.UrlUtil;
@@ -140,9 +140,10 @@ public class HomePagerContentAdapter extends RecyclerView.Adapter<HomePagerConte
             float resultPrice = Float.parseFloat(finalPrice) - couponAmount;
             mFinalPrise.setText(context.getString(R.string.text_goods_before_offer_price, String.format("%.2f", resultPrice)));
             mSellCount.setText(context.getString(R.string.text_goods_sell_count, dataBean.getVolume()));
-            final CollectionBean collectionBean = new CollectionBean(dataBean.getTitle(), resultPrice, coverUrl, dataBean.getLink());
+//            final CollectionBean collectionBean = new CollectionBean(dataBean.getTitle(), resultPrice, coverUrl, dataBean.getLink());
+            Collect collect = new Collect(dataBean.getTitle(), resultPrice, coverUrl, dataBean.getLink());
             // 收藏赋值
-            CollectionUtils.changeCollectIcon(mCollectHome, collectionBean);
+            CollectionUtils.changeCollectIcon(mCollectHome, collect);
         }
 
     }

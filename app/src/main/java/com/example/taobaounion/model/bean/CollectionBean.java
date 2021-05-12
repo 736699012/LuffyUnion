@@ -1,10 +1,12 @@
 package com.example.taobaounion.model.bean;
 
+import com.example.taobaounion.model.dao.ICollect;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CollectionBean implements IBaseInfo {
+public class CollectionBean implements IBaseInfo, ICollect {
 
     private List<CollectionBean> mCollectionBeanList;
 

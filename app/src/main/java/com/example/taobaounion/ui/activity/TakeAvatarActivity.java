@@ -5,14 +5,22 @@ import android.util.Log;
 
 import com.example.taobaounion.R;
 import com.example.taobaounion.model.bean.PersonDesc;
+import com.example.taobaounion.model.dao.User;
 import com.example.taobaounion.presenter.interfaces.IPersonDescPresenter;
 import com.example.taobaounion.utils.PresentManger;
+import com.example.taobaounion.utils.ToastUtil;
+import com.example.taobaounion.utils.UserManger;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoActivity;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
+
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 
 import static com.example.taobaounion.utils.Constant.DEFAULT_USER_NAME;
 
@@ -54,6 +62,20 @@ public class TakeAvatarActivity extends TakePhotoActivity {
         detailDesc.setUrl(images.get(0).getOriginalPath());
         Log.d(TAG, "path = " + images.get(0).getOriginalPath());
         descPresenter.changeDetailDesc(detailDesc);
+        User user = new User(UserManger.getInstance().getUser());
+        user.setCoverUrl(images.get(0).getOriginalPath());
+        user.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    UserManger.getInstance().setUser(user);
+                    EventBus.getDefault().post(user);
+                    ToastUtil.showToast("修改成功");
+                } else {
+                    ToastUtil.showToast("修改失败");
+                }
+            }
+        });
         finish();
     }
 

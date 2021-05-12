@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.taobaounion.R;
 import com.example.taobaounion.model.bean.ChoicenessContent;
-import com.example.taobaounion.model.bean.CollectionBean;
 import com.example.taobaounion.model.bean.IBaseInfo;
+import com.example.taobaounion.model.dao.Collect;
 import com.example.taobaounion.utils.CollectionUtils;
 import com.example.taobaounion.utils.LogUtils;
 
@@ -130,9 +130,10 @@ public class ChoicenessContentAdapter extends RecyclerView.Adapter<ChoicenessCon
                 resultPrice = getResultPrice(itemBean.getZk_final_price(), itemBean.getCoupon_info());
             }
 
-            final CollectionBean collectionBean = new CollectionBean(itemBean.getTitle(), resultPrice, coverUrl, itemBean.getLink());
+//            final CollectionBean collectionBean = new CollectionBean(itemBean.getTitle(), resultPrice, coverUrl, itemBean.getLink());
+            Collect collect = new Collect(itemBean.getTitle(), resultPrice, coverUrl, itemBean.getLink());
             // 收藏赋值
-            CollectionUtils.changeCollectIcon(mCollectChoice, collectionBean);
+            CollectionUtils.changeCollectIcon(mCollectChoice, collect);
 
         }
 

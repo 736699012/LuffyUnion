@@ -20,7 +20,7 @@ import com.example.taobaounion.R;
 import com.example.taobaounion.base.BaseFragment;
 import com.example.taobaounion.model.bean.IBaseInfo;
 import com.example.taobaounion.model.bean.OnSellContent;
-import com.example.taobaounion.model.bean.PersonDesc;
+import com.example.taobaounion.model.dao.User;
 import com.example.taobaounion.presenter.interfaces.IOnSellPresenter;
 import com.example.taobaounion.presenter.interfaces.IPersonDescPresenter;
 import com.example.taobaounion.ui.activity.CollectionActivity;
@@ -35,6 +35,7 @@ import com.example.taobaounion.utils.LogUtils;
 import com.example.taobaounion.utils.PresentManger;
 import com.example.taobaounion.utils.TicketUtil;
 import com.example.taobaounion.utils.ToastUtil;
+import com.example.taobaounion.utils.UserManger;
 import com.example.taobaounion.utils.Utils;
 import com.example.taobaounion.view.IOnSellCallBack;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -92,8 +93,8 @@ public class MeFragment extends BaseFragment implements IOnSellCallBack, OnSellC
     protected void initView(View view) {
         stateChange(State.SUCCESS);
         EventBus.getDefault().register(this);
-        mPresenter = PresentManger.getInstance().getPersonDescPresenter();
-        PersonDesc desc = mPresenter.getDetailDesc();
+//        mPresenter = PresentManger.getInstance().getPersonDescPresenter();
+//        PersonDesc desc = mPresenter.getDetailDesc();
         headerTitle.setText("个人中心");
         mTitle.setText("个性化推荐");
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -104,7 +105,8 @@ public class MeFragment extends BaseFragment implements IOnSellCallBack, OnSellC
         mRefreshLayout.setEnableLoadmore(true);
         mRefreshLayout.setEnableRefresh(false);
         mAdapter.setOnItemClickListen(this);
-        bindView(desc);
+        User user = UserManger.getInstance().getUser();
+        bindView(user);
     }
 
     @Override
@@ -153,8 +155,8 @@ public class MeFragment extends BaseFragment implements IOnSellCallBack, OnSellC
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void event(PersonDesc desc) {
-        bindView(desc);
+    public void event(User user) {
+        bindView(user);
     }
 
     @Override
@@ -165,20 +167,21 @@ public class MeFragment extends BaseFragment implements IOnSellCallBack, OnSellC
         }
     }
 
-    private void bindView(PersonDesc desc) {
-        if (desc == null) {
+    private void bindView(User user) {
+
+        if (user == null) {
             mName.setText(DEFAULT_USER_NAME);
             mAvatar.setImageResource(R.mipmap.blank_face);
             return;
         }
         if (mName != null) {
-            mName.setText(desc.getName());
+            mName.setText(user.getUsername());
         }
         if (mAvatar != null) {
-            if (TextUtils.isEmpty(desc.getUrl())) {
+            if (TextUtils.isEmpty(user.getCoverUrl())) {
                 mAvatar.setImageResource(R.mipmap.blank_face);
             } else {
-                Uri uri = ImageUtils.getImageContentUri(mAvatar.getContext(), desc.getUrl());
+                Uri uri = ImageUtils.getImageContentUri(mAvatar.getContext(), user.getCoverUrl());
                 LogUtils.d(this, "uri = " + uri);
                 Glide.with(mAvatar).load(uri)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)

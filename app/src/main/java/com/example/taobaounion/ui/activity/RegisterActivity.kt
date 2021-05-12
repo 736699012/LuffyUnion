@@ -4,9 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import cn.bmob.v3.BmobQuery
+import cn.bmob.v3.exception.BmobException
+import cn.bmob.v3.listener.FindListener
 import com.example.taobaounion.R
+import com.example.taobaounion.model.dao.User
 import com.example.taobaounion.ui.custom.NewsDialog
 import com.example.taobaounion.utils.PresentManger
+import com.example.taobaounion.utils.UserManger
 import com.example.taobaounion.view.IRegisterCallBack
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -46,6 +51,21 @@ class RegisterActivity : AppCompatActivity(), IRegisterCallBack {
     }
 
     override fun onRegisterSuccess(username: String, password: String) {
+        val bmobQuery = BmobQuery<User>()
+        val user = User()
+        user.username = username
+        user.password = password
+        bmobQuery.findObjects(object : FindListener<User>() {
+            override fun done(result: MutableList<User>?, error: BmobException?) {
+                if (error == null) {
+                    result?.forEach {
+                        if (it == user) {
+                            UserManger.getInstance().user = it
+                        }
+                    }
+                }
+            }
+        })
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }

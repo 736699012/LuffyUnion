@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
+import cn.bmob.v3.Bmob
 import com.example.taobaounion.R
 import com.example.taobaounion.model.LoginApi
 import com.example.taobaounion.model.bean.LoginData
@@ -29,6 +30,7 @@ class LoginActivity : AppCompatActivity(), ILoginCallBack {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        Bmob.initialize(this,"d018d65a88bc6dfc85a7b6804e9c758d")
         initView()
     }
 

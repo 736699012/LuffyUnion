@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.taobaounion.R;
-import com.example.taobaounion.model.bean.CollectionBean;
 import com.example.taobaounion.model.bean.IBaseInfo;
-import com.example.taobaounion.utils.CollectionUtils;
+import com.example.taobaounion.model.dao.Collect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ import butterknife.ButterKnife;
 
 public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.InnerHolder> {
 
-    private List<CollectionBean> mCollectionBeanList = new ArrayList<>();
+    private List<Collect> mCollectionBeanList = new ArrayList<>();
     private CollectionAdapter.OnItemClickListen mOnItemClickListen;
 
     @NonNull
@@ -35,7 +34,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.In
 
     @Override
     public void onBindViewHolder(@NonNull InnerHolder holder, int position) {
-        CollectionBean collectionBean = mCollectionBeanList.get(position);
+        Collect collectionBean = mCollectionBeanList.get(position);
         holder.setData(collectionBean);
         holder.itemView.setOnClickListener(v -> {
             if (mOnItemClickListen != null) {
@@ -53,7 +52,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.In
         });
     }
 
-    public void setData(List<CollectionBean> data) {
+    public void setData(List<Collect> data) {
         mCollectionBeanList.clear();
         mCollectionBeanList.addAll(data);
         notifyDataSetChanged();
@@ -63,7 +62,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.In
         mOnItemClickListen = onItemClickListen;
     }
 
-    public void remove(int pos, CollectionBean collectionBean) {
+    public void remove(int pos, Collect collectionBean) {
         mCollectionBeanList.remove(collectionBean);
         notifyItemRemoved(pos);
         notifyItemRangeChanged(pos, getItemCount());
@@ -73,7 +72,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.In
     public interface OnItemClickListen {
         void onItemClick(IBaseInfo dataBean);
 
-        void cancelCollect(int pos, CollectionBean collectionBean);
+        void cancelCollect(int pos, Collect collect);
     }
 
     @Override
@@ -98,7 +97,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.In
             ButterKnife.bind(this, itemView);
         }
 
-        public void setData(CollectionBean data) {
+        public void setData(Collect data) {
             if (cover != null) {
                 Glide.with(itemView.getContext()).load(data.getCoverUrl()).into(cover);
             }
@@ -110,7 +109,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.In
 
                 finalPrice.setText("券后价: " + String.format("%.2f", data.getFinalMoney()));
             }
-            CollectionUtils.changeCollectIcon(mCollect, data);
+            mCollect.setImageResource(R.mipmap.collected);
+//            CollectionUtils.changeCollectIcon(mCollect, data);
 
         }
     }

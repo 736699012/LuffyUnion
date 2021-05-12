@@ -14,17 +14,22 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.taobaounion.R;
 import com.example.taobaounion.base.BaseActivity;
 import com.example.taobaounion.model.bean.PersonDesc;
+import com.example.taobaounion.model.dao.User;
 import com.example.taobaounion.presenter.interfaces.IPersonDescPresenter;
 import com.example.taobaounion.ui.custom.GlideCircleTransform;
 import com.example.taobaounion.utils.ImageUtils;
 import com.example.taobaounion.utils.LogUtils;
 import com.example.taobaounion.utils.PresentManger;
+import com.example.taobaounion.utils.ToastUtil;
+import com.example.taobaounion.utils.UserManger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 
 import static com.example.taobaounion.utils.Constant.DEFAULT_USER_NAME;
 
@@ -44,6 +49,7 @@ public class EditPersonMsgActivity extends BaseActivity implements View.OnClickL
     public TextView mSaveDesc;
     private IPersonDescPresenter mPresenter;
     private PersonDesc mDetailDesc;
+    private User mUser;
 
 
     @Override
@@ -63,36 +69,38 @@ public class EditPersonMsgActivity extends BaseActivity implements View.OnClickL
         EventBus.getDefault().register(this);
         mPresenter = PresentManger.getInstance().getPersonDescPresenter();
         mDetailDesc = mPresenter.getDetailDesc();
-        bindView(mDetailDesc);
+        mUser = UserManger.getInstance().getUser();
+        bindView(mUser);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void event(PersonDesc desc) {
-        bindView(desc);
+    public void event(User user) {
+
+        bindView(user);
     }
 
-    private void bindView(PersonDesc desc) {
+    private void bindView(User user) {
         if (mName == null || mAvatar == null || mDesc == null) {
             return;
         }
-        if (desc == null) {
+        if (user == null) {
             mName.setText(DEFAULT_USER_NAME);
             mAvatar.setImageResource(R.mipmap.blank_face);
             mDetailDesc = new PersonDesc();
             mDetailDesc.setName(DEFAULT_USER_NAME);
         } else {
-            if (TextUtils.isEmpty(desc.getUrl())) {
+            if (TextUtils.isEmpty(user.getCoverUrl())) {
                 mAvatar.setImageResource(R.mipmap.blank_face);
             } else {
-                Uri uri = ImageUtils.getImageContentUri(mAvatar.getContext(), desc.getUrl());
+                Uri uri = ImageUtils.getImageContentUri(mAvatar.getContext(), user.getCoverUrl());
                 LogUtils.d(this, "uri = " + uri);
                 Glide.with(mAvatar).load(uri)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .transform(new GlideCircleTransform(mAvatar.getContext()))
                         .into(mAvatar);
             }
-            mName.setText(desc.getName());
-            mDesc.setText(desc.getDesc());
+            mName.setText(user.getUsername());
+            mDesc.setText(user.getDesc());
         }
     }
 
@@ -111,6 +119,20 @@ public class EditPersonMsgActivity extends BaseActivity implements View.OnClickL
                 String newDesc = mDesc.getText().toString();
                 mDetailDesc.setDesc(newDesc);
                 changeMsg(mDetailDesc);
+                User user = new User(mUser);
+                user.setDesc(newDesc);
+                user.update(new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                        if (e == null) {
+                            UserManger.getInstance().setUser(user);
+//                            EventBus.getDefault().post(user);
+                            ToastUtil.showToast("保存成功");
+                        } else {
+                            ToastUtil.showToast("保存失败");
+                        }
+                    }
+                });
                 break;
             case R.id.person_avatar:
                 Intent intent = new Intent(v.getContext(), TakeAvatarActivity.class);

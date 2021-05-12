@@ -7,10 +7,13 @@ import com.example.taobaounion.R;
 import com.example.taobaounion.base.BaseActivity;
 import com.example.taobaounion.model.bean.CollectionBean;
 import com.example.taobaounion.model.bean.IBaseInfo;
+import com.example.taobaounion.model.dao.Collect;
 import com.example.taobaounion.presenter.interfaces.ICollectionPresenter;
 import com.example.taobaounion.ui.adapter.CollectionAdapter;
+import com.example.taobaounion.utils.CollectionUtils;
 import com.example.taobaounion.utils.PresentManger;
 import com.example.taobaounion.utils.TicketUtil;
+import com.example.taobaounion.view.ICollectCallBack;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -20,7 +23,7 @@ import butterknife.BindView;
 
 import static com.example.taobaounion.base.BaseApplication.getContext;
 
-public class CollectionActivity extends BaseActivity implements CollectionAdapter.OnItemClickListen {
+public class CollectionActivity extends BaseActivity implements CollectionAdapter.OnItemClickListen, ICollectCallBack {
 
     @BindView(R.id.collect_content)
     public RecyclerView mRecyclerView;
@@ -33,8 +36,10 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     @Override
     protected void initPresent() {
         mCollectionPresenter = PresentManger.getInstance().getCollectionPresenter();
-        List<CollectionBean> lists = mCollectionPresenter.getCollectionLists();
-        mCollectionAdapter.setData(lists);
+        mCollectionPresenter.registerViewCallBack(this);
+        mCollectionPresenter.getListByIntent();
+//        List<CollectionBean> lists = mCollectionPresenter.getCollectionLists();
+//        mCollectionAdapter.setData(lists);
     }
 
     @Override
@@ -58,8 +63,9 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 super.onRefresh(refreshLayout);
                 if (mCollectionPresenter != null) {
-                    List<CollectionBean> lists = mCollectionPresenter.getCollectionLists();
-                    mCollectionAdapter.setData(lists);
+                    mCollectionPresenter.getListByIntent();
+//                    List<CollectionBean> lists = mCollectionPresenter.getCollectionLists();
+//                    mCollectionAdapter.setData(lists);
                 }
                 refreshLayout.finishRefreshing();
             }
@@ -89,8 +95,11 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     }
 
     @Override
-    public void cancelCollect(int pos, CollectionBean collectionBean) {
+    public void cancelCollect(int pos, Collect collectionBean) {
         if (mCollectionAdapter != null) {
+            ICollectionPresenter collectionPresenter = PresentManger.getInstance().getCollectionPresenter();
+            Collect collected = CollectionUtils.isCollected(collectionBean);
+            collectionPresenter.deleteCollect(collectionBean);
             mCollectionAdapter.remove(pos, collectionBean);
         }
     }
@@ -99,6 +108,27 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     @Override
     protected void recycle() {
         super.recycle();
+        mCollectionPresenter.unRegisterViewCallBack(this);
 //        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onSuccess(List<Collect> list) {
+        mCollectionAdapter.setData(list);
+    }
+
+    @Override
+    public void onLoading() {
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onEmpty() {
+
     }
 }
