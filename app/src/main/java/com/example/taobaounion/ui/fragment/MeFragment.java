@@ -20,6 +20,7 @@ import com.example.taobaounion.R;
 import com.example.taobaounion.base.BaseFragment;
 import com.example.taobaounion.model.bean.IBaseInfo;
 import com.example.taobaounion.model.bean.OnSellContent;
+import com.example.taobaounion.model.bean.PersonDesc;
 import com.example.taobaounion.model.dao.User;
 import com.example.taobaounion.presenter.interfaces.IOnSellPresenter;
 import com.example.taobaounion.presenter.interfaces.IPersonDescPresenter;
@@ -27,6 +28,7 @@ import com.example.taobaounion.ui.activity.CollectionActivity;
 import com.example.taobaounion.ui.activity.EditPersonMsgActivity;
 import com.example.taobaounion.ui.activity.FlashSaleActivity;
 import com.example.taobaounion.ui.activity.FootPrintActivity;
+import com.example.taobaounion.ui.activity.LoginActivity;
 import com.example.taobaounion.ui.adapter.OnSellContentAdapter;
 import com.example.taobaounion.ui.custom.GlideCircleTransform;
 import com.example.taobaounion.ui.custom.MeCustomTabViewKt;
@@ -310,5 +312,18 @@ public class MeFragment extends BaseFragment implements IOnSellCallBack, OnSellC
         intent.setClass(mMeCustomTabView.getContext(), FlashSaleActivity.class);
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onExitLoginClick() {
+        Intent intent = new Intent();
+        intent.setClass(mMeCustomTabView.getContext(), LoginActivity.class);
+        IPersonDescPresenter descPresenter = PresentManger.getInstance().getPersonDescPresenter();
+        PersonDesc personDesc = descPresenter.getDetailDesc();
+        personDesc.setName("");
+        personDesc.setPassword("");
+        descPresenter.changeDetailDesc(personDesc);
+        UserManger.getInstance().setUser(new User());
+        startActivity(intent);
     }
 }

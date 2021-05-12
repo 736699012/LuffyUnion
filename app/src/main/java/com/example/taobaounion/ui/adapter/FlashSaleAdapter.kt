@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.taobaounion.R
 import com.example.taobaounion.model.bean.FlashSaleData
+import com.example.taobaounion.model.dao.FlashCoupon
 import com.example.taobaounion.ui.custom.FlashSaleItemView
 import com.example.taobaounion.utils.SizeUtils
 import java.util.*
@@ -18,7 +19,7 @@ import java.util.*
 
 class FlashSaleAdapter : RecyclerView.Adapter<FlashSaleAdapter.InnerHolder>() {
 
-    var flashSaleList = arrayListOf<FlashSaleData>()
+    var flashSaleList = arrayListOf<FlashCoupon>()
     private var listener: OnFlashSaleItemClickListener? = null
 
     companion object {
@@ -46,9 +47,11 @@ class FlashSaleAdapter : RecyclerView.Adapter<FlashSaleAdapter.InnerHolder>() {
     }
 
 
-    fun setData(list: List<FlashSaleData>) {
+    fun setData(list: List<FlashCoupon>?) {
         flashSaleList.clear()
-        flashSaleList.addAll(list)
+        if (list != null) {
+            flashSaleList.addAll(list)
+        }
         notifyDataSetChanged()
     }
 
@@ -59,7 +62,7 @@ class FlashSaleAdapter : RecyclerView.Adapter<FlashSaleAdapter.InnerHolder>() {
     class InnerHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 
-        fun bindData(data: FlashSaleData) {
+        fun bindData(data: FlashCoupon) {
             if (itemView is FlashSaleItemView) {
                 itemView.bindData(data)
             }
@@ -70,7 +73,7 @@ class FlashSaleAdapter : RecyclerView.Adapter<FlashSaleAdapter.InnerHolder>() {
 
     interface OnFlashSaleItemClickListener {
 
-        fun onItemClick(flashSaleData: FlashSaleData)
+        fun onItemClick(flashSaleData: FlashCoupon)
     }
 
 }

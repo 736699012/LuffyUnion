@@ -18,13 +18,16 @@ import com.example.taobaounion.base.BaseActivity;
 import com.example.taobaounion.model.bean.FlashSaleData;
 import com.example.taobaounion.model.bean.FootPrintData;
 import com.example.taobaounion.model.bean.Ticket;
+import com.example.taobaounion.model.dao.FlashCoupon;
 import com.example.taobaounion.presenter.interfaces.IFlashSalePresenter;
 import com.example.taobaounion.presenter.interfaces.IFootPrintPresenter;
 import com.example.taobaounion.presenter.interfaces.ITicketPresenter;
 import com.example.taobaounion.utils.Constant;
+import com.example.taobaounion.utils.FlashManger;
 import com.example.taobaounion.utils.LogUtils;
 import com.example.taobaounion.utils.PresentManger;
 import com.example.taobaounion.utils.ToastUtil;
+import com.example.taobaounion.utils.UserManger;
 import com.example.taobaounion.view.ITicketCallBack;
 
 import org.greenrobot.eventbus.EventBus;
@@ -168,22 +171,32 @@ public class TicketActivity extends BaseActivity implements ITicketCallBack {
         footPrintPresenter.addFootPrint(footPrintData);
 
         if (data.getCouponCount() >= 30) {
-            FlashSaleData saleData = new FlashSaleData(data);
+//            FlashSaleData saleData = new FlashSaleData(data);
             IFlashSalePresenter flashSalePresenter = PresentManger.getInstance().getFlashSalePresenter();
-            List<FlashSaleData> saleList = flashSalePresenter.getFlashSaleList();
+//            List<FlashSaleData> saleList = flashSalePresenter.getFlashSaleList();
             mFlashBt.setVisibility(View.VISIBLE);
-            for (FlashSaleData temp : saleList) {
-                if (temp.equals(saleData)) {
-                    saleData = new FlashSaleData(temp);
-                    long startTime = saleData.getStartTime();
-                    long hasTime = System.currentTimeMillis() - startTime;
-//                    mCountDown.changeAngle(hasTime);
-                    return;
+//            for (FlashSaleData temp : saleList) {
+//                if (temp.equals(saleData)) {
+//                    saleData = new FlashSaleData(temp);
+//                    long startTime = saleData.getStartTime();
+//                    long hasTime = System.currentTimeMillis() - startTime;
+////                    mCountDown.changeAngle(hasTime);
+//                    return;
+//                }
+//            }
+//            saleData.setTicket(ticket);
+            List<FlashCoupon> flashCouponList = FlashManger.getInstance().getFlashCouponList();
+            FlashCoupon coupon = new FlashCoupon(data);
+            if (flashCouponList != null && flashCouponList.size() > 0) {
+                for (FlashCoupon temp : flashCouponList) {
+                    if (temp.equals(coupon)) {
+                        return;
+                    }
                 }
             }
-            saleData.setTicket(ticket);
-            saleData.setStartTime(System.currentTimeMillis());
-            flashSalePresenter.addFlashSale(saleData);
+            coupon.setStartTime(System.currentTimeMillis());
+            coupon.setUserId(UserManger.getInstance().getUser().getObjectId());
+            flashSalePresenter.addFlashSale(coupon);
 //            mCountDown.changeAngle(10 * 60 * 1000);
         } else {
             mFlashBt.setVisibility(View.GONE);

@@ -7,7 +7,7 @@ import java.util.Objects;
 
 import cn.bmob.v3.BmobObject;
 
-public class Collect extends BmobObject implements ICollect, IBaseInfo {
+public class Collect extends BmobObject implements IBaseInfo {
 
     private String title = "";
     private float finalMoney = 0.0f;

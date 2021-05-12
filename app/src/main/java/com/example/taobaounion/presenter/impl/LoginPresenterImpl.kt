@@ -32,7 +32,6 @@ class LoginPresenterImpl : ILoginPresenter {
                         if (it == user) {
                             UserManger.getInstance().user = it
                             callback?.onLoginSuccess()
-                            CollectionUtils.changeCollect()
                             isSuccess = true
                         }
                     }

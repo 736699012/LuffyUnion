@@ -17,8 +17,10 @@ import com.example.taobaounion.presenter.interfaces.IHomePresenter;
 import com.example.taobaounion.ui.activity.IMainActivity;
 import com.example.taobaounion.ui.activity.ScanQrCodeActivity;
 import com.example.taobaounion.ui.adapter.HomePagerAdapter;
+import com.example.taobaounion.utils.CollectionUtils;
 import com.example.taobaounion.utils.LogUtils;
 import com.example.taobaounion.utils.PresentManger;
+import com.example.taobaounion.utils.Utils;
 import com.example.taobaounion.view.IHomeCallBack;
 import com.google.android.material.tabs.TabLayout;
 
@@ -47,6 +49,8 @@ public class HomeFragment extends BaseFragment implements IHomeCallBack {
     @Override
     protected void initView(View view) {
 //      选项卡绑定ViewPager
+        CollectionUtils.changeCollect();
+        Utils.changeFlash();
         mTabLayout.setupWithViewPager(mViewPager);
         mHomePagerAdapter = new HomePagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mHomePagerAdapter);

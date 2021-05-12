@@ -30,7 +30,6 @@ class LoginActivity : AppCompatActivity(), ILoginCallBack {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        Bmob.initialize(this,"d018d65a88bc6dfc85a7b6804e9c758d")
         initView()
     }
 

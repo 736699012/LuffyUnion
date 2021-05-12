@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.taobaounion.R
 import com.example.taobaounion.model.bean.FlashSaleData
+import com.example.taobaounion.model.dao.FlashCoupon
 import com.example.taobaounion.utils.PresentManger
 import com.example.taobaounion.utils.SizeUtils
 import kotlinx.android.synthetic.main.item_flash_sale.view.*
@@ -27,17 +28,17 @@ constructor(context: Context, attributes: AttributeSet? = null
         LayoutInflater.from(context).inflate(R.layout.item_flash_sale, this)
     }
 
-    private var mData: FlashSaleData? = null
+    private var mData: FlashCoupon? = null
 
-    fun bindData(data: FlashSaleData) {
+    fun bindData(data: FlashCoupon) {
         mData = data
         val roundedCorners = RoundedCorners(SizeUtils.dip2px(context, 16f))
         val bitmapTransform = RequestOptions.bitmapTransform(roundedCorners)
-        Glide.with(flash_sale_cover.context).load(data.cover)
+        Glide.with(flash_sale_cover.context).load(data.coverUrl)
                 .apply(bitmapTransform)
                 .into(flash_sale_cover)
-        flash_sale_title.text = data.titles
-        flash_sale_coupon.text = "限时省${data.couponCount}元"
+        flash_sale_title.text = data.title
+        flash_sale_coupon.text = "限时省${data.coupons}元"
         updateTime(data.startTime)
     }
 

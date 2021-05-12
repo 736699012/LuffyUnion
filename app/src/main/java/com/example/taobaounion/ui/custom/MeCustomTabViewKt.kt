@@ -14,8 +14,8 @@ constructor(context: Context, attributes: AttributeSet? = null
     private var mListener: OnItemClickListener? = null
 
     companion object {
-        val resourceIds: IntArray = intArrayOf(R.mipmap.collect_me, R.mipmap.foot_print, R.mipmap.flash_sale)
-        val titleList: Array<String> = arrayOf<String>("个人收藏", "足迹", "限时抢购")
+        val resourceIds: IntArray = intArrayOf(R.mipmap.collect_me, R.mipmap.foot_print, R.mipmap.flash_sale, R.mipmap.exit_login)
+        val titleList: Array<String> = arrayOf<String>("个人收藏", "足迹", "限时抢购", "退出登录")
     }
 
     fun setOnItemListener(listener: OnItemClickListener) {
@@ -42,6 +42,12 @@ constructor(context: Context, attributes: AttributeSet? = null
                 mListener?.onFlashSaleClick()
             }
         }
+        custom_exit_login.run {
+            bindData(resourceIds[3], titleList[3])
+            setOnClickListener {
+                mListener?.onExitLoginClick()
+            }
+        }
     }
 
 
@@ -49,6 +55,7 @@ constructor(context: Context, attributes: AttributeSet? = null
         fun onCollectClick()
         fun onFootPrintClick()
         fun onFlashSaleClick()
+        fun onExitLoginClick()
     }
 
 }

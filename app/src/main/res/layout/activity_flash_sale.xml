@@ -31,5 +31,25 @@
             android:layout_height="wrap_content"
             android:background="@color/color_flash_bg" />
 
+        <com.example.taobaounion.ui.custom.LoadingView
+            android:id="@+id/flash_loading"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_centerInParent="true"
+            android:background="@mipmap/loading"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/flash_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableTop="@mipmap/empty_icon"
+            android:drawablePadding="8dp"
+            android:text="空空如也,快去逛逛吧"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
     </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 </LinearLayout>

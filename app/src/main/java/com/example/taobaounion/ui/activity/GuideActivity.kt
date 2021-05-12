@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import cn.bmob.v3.Bmob
 import com.example.taobaounion.R
 import com.example.taobaounion.model.bean.IBaseInfo
 import com.example.taobaounion.ui.adapter.HomePagerLooperAdapter
@@ -21,6 +22,7 @@ class GuideActivity : AppCompatActivity(), HomePagerLooperAdapter.OnLooperItemCl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guide)
+        Bmob.initialize(this,"d018d65a88bc6dfc85a7b6804e9c758d")
         initView()
         initListen()
         bindData()

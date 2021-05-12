@@ -8,7 +8,7 @@ class FlashSaleData : IBaseInfo {
     var couponCount: Long = 0
     var list = arrayListOf<FlashSaleData>()
     var startTime: Long = 0
-    var ticket: Ticket? = null
+//    var ticket: Ticket? = null
 
     constructor() {
 
@@ -19,7 +19,7 @@ class FlashSaleData : IBaseInfo {
         this.cover = flashSaleData.cover
         this.titles = flashSaleData.titles
         this.startTime = flashSaleData.startTime
-        this.ticket = flashSaleData.ticket
+//        this.ticket = flashSaleData.ticket
         this.couponCount = flashSaleData.couponCount
     }
 

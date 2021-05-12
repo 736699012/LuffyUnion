@@ -97,20 +97,36 @@ public class CollectionPresenterImpl implements ICollectionPresenter {
 
     @Override
     public void getListByIntent() {
+        if (mCollectCallBack != null) {
+            mCollectCallBack.onLoading();
+        }
         BmobQuery<Collect> query = new BmobQuery<>();
         query.findObjects(new FindListener<Collect>() {
             @Override
             public void done(List<Collect> list, BmobException e) {
                 if (e == null) {
                     List<Collect> filter = new ArrayList<>();
+                    if (list == null || list.size() == 0) {
+                        if (mCollectCallBack != null) {
+                            mCollectCallBack.onEmpty();
+                        }
+                        return;
+                    }
                     for (Collect temp : list) {
                         if (temp.getUserId().equals(UserManger.getInstance().getUser().getObjectId())) {
                             filter.add(temp);
                         }
                     }
-                    if (mCollectCallBack != null) {
-                        mCollectCallBack.onSuccess(filter);
+                    if (filter.size() == 0) {
+                        if (mCollectCallBack != null) {
+                            mCollectCallBack.onEmpty();
+                        }
+                    } else {
+                        if (mCollectCallBack != null) {
+                            mCollectCallBack.onSuccess(filter);
+                        }
                     }
+
                 } else {
                     if (mCollectCallBack != null) {
                         mCollectCallBack.onError();

@@ -1,5 +1,8 @@
 package com.example.taobaounion.ui.activity;
 
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +13,7 @@ import com.example.taobaounion.model.bean.IBaseInfo;
 import com.example.taobaounion.model.dao.Collect;
 import com.example.taobaounion.presenter.interfaces.ICollectionPresenter;
 import com.example.taobaounion.ui.adapter.CollectionAdapter;
+import com.example.taobaounion.ui.custom.LoadingView;
 import com.example.taobaounion.utils.CollectionUtils;
 import com.example.taobaounion.utils.PresentManger;
 import com.example.taobaounion.utils.TicketUtil;
@@ -29,6 +33,10 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     public RecyclerView mRecyclerView;
     @BindView(R.id.collect_refresh)
     public TwinklingRefreshLayout mRefreshLayout;
+    @BindView(R.id.collect_loading)
+    public LoadingView mLoadingView;
+    @BindView(R.id.collect_empty)
+    public TextView mEmpty;
     public static final int DEFAULT_SPAN_COUNT = 2;
     private CollectionAdapter mCollectionAdapter;
     private ICollectionPresenter mCollectionPresenter;
@@ -115,20 +123,24 @@ public class CollectionActivity extends BaseActivity implements CollectionAdapte
     @Override
     public void onSuccess(List<Collect> list) {
         mCollectionAdapter.setData(list);
+        mLoadingView.setVisibility(View.GONE);
+        mEmpty.setVisibility(View.GONE);
     }
 
     @Override
     public void onLoading() {
-
+        mLoadingView.setVisibility(View.VISIBLE);
+        mEmpty.setVisibility(View.GONE);
     }
 
     @Override
     public void onError() {
-
+        mLoadingView.setVisibility(View.GONE);
     }
 
     @Override
     public void onEmpty() {
-
+        mLoadingView.setVisibility(View.GONE);
+        mEmpty.setVisibility(View.VISIBLE);
     }
 }
