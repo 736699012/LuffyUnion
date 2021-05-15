@@ -18,6 +18,7 @@ import com.example.taobaounion.model.bean.Categories;
 import com.example.taobaounion.model.bean.HomePagerContent;
 import com.example.taobaounion.model.bean.IBaseInfo;
 import com.example.taobaounion.model.bean.ILinearInfo;
+import com.example.taobaounion.model.dao.UnInsert;
 import com.example.taobaounion.presenter.interfaces.ICategoryPagerPresenter;
 import com.example.taobaounion.ui.adapter.HomePagerContentAdapter;
 import com.example.taobaounion.ui.adapter.RecommendAdapter;
@@ -330,8 +331,9 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPagerCal
     }
 
     @Override
-    public void onLoseClick(int pos, ILinearInfo dataBean) {
+    public void onLoseClick(int pos, ILinearInfo dataBean, UnInsert unInsert) {
         mHomePagerContentAdapter.removeData(dataBean, pos);
+        Utils.addUnInsert(unInsert);
     }
 
     private void handleChangeActivity(IBaseInfo dataBean, long couponAmount) {

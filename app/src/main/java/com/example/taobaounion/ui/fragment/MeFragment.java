@@ -21,6 +21,7 @@ import com.example.taobaounion.base.BaseFragment;
 import com.example.taobaounion.model.bean.IBaseInfo;
 import com.example.taobaounion.model.bean.OnSellContent;
 import com.example.taobaounion.model.bean.PersonDesc;
+import com.example.taobaounion.model.dao.UnInsert;
 import com.example.taobaounion.model.dao.User;
 import com.example.taobaounion.presenter.interfaces.IOnSellPresenter;
 import com.example.taobaounion.presenter.interfaces.IPersonDescPresenter;
@@ -235,12 +236,12 @@ public class MeFragment extends BaseFragment implements IOnSellCallBack, OnSellC
 //    }
 
     @Override
-    public void onContentLoaded(OnSellContent content) {
+    public void onContentLoaded(List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> list,
+                                List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> list2) {
 //        得到内容
         stateChange(State.SUCCESS);
-        List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> data = content.getData().getTbk_dg_optimus_material_response().getResult_list().getMap_data();
-        Utils.filterList(data);
-        mAdapter.setData(data);
+
+        mAdapter.setData(list);
     }
 
     @Override
@@ -290,6 +291,11 @@ public class MeFragment extends BaseFragment implements IOnSellCallBack, OnSellC
     @Override
     public void onLoseClick(int position, IBaseInfo dataBean) {
         mAdapter.removeData(dataBean, position);
+        UnInsert unInsert = new UnInsert();
+        unInsert.setCoverUrl(dataBean.getPict_url());
+        unInsert.setUrl(dataBean.getLink());
+        unInsert.setTitle(dataBean.getTitle());
+        Utils.addUnInsert(unInsert);
     }
 
     @Override

@@ -23,6 +23,7 @@ import com.example.taobaounion.model.bean.IBaseInfo;
 import com.example.taobaounion.model.bean.ILinearInfo;
 import com.example.taobaounion.model.bean.SearchRecommend;
 import com.example.taobaounion.model.bean.SearchResult;
+import com.example.taobaounion.model.dao.UnInsert;
 import com.example.taobaounion.presenter.interfaces.ISearchPresenter;
 import com.example.taobaounion.ui.adapter.HomePagerContentAdapter;
 import com.example.taobaounion.ui.custom.TextFlowLayout;
@@ -31,6 +32,7 @@ import com.example.taobaounion.utils.LogUtils;
 import com.example.taobaounion.utils.PresentManger;
 import com.example.taobaounion.utils.TicketUtil;
 import com.example.taobaounion.utils.ToastUtil;
+import com.example.taobaounion.utils.Utils;
 import com.example.taobaounion.view.ISearchCallBcak;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
@@ -176,8 +178,9 @@ public class SearchFragment extends BaseFragment implements ISearchCallBcak, Tex
             }
 
             @Override
-            public void onLoseClick(int pos, ILinearInfo dataBean) {
+            public void onLoseClick(int pos, ILinearInfo dataBean, UnInsert unInsert) {
                 mResultAdapter.removeData(dataBean, pos);
+                Utils.addUnInsert(unInsert);
             }
         });
     }

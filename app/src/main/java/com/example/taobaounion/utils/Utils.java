@@ -2,6 +2,8 @@ package com.example.taobaounion.utils;
 
 import com.example.taobaounion.model.bean.IBaseInfo;
 import com.example.taobaounion.model.dao.FlashCoupon;
+import com.example.taobaounion.model.dao.UnInsert;
+import com.example.taobaounion.presenter.interfaces.IUnInsertPresenter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,6 +54,24 @@ public class Utils {
                     }
                 }
                 FlashManger.getInstance().setFlashCouponList(filter);
+            }
+        });
+    }
+
+
+    public static void addUnInsert(UnInsert unInsert) {
+        IUnInsertPresenter iUnInsertPresenter = PresentManger.getInstance().getIUnInsertPresenter();
+        iUnInsertPresenter.addUnInsert(unInsert);
+    }
+
+    public static void getUnInsert() {
+        BmobQuery<UnInsert> bmobQuery = new BmobQuery<>();
+        bmobQuery.findObjects(new FindListener<UnInsert>() {
+            @Override
+            public void done(List<UnInsert> list, BmobException e) {
+                if (e == null) {
+                    UnInsertManger.getInstance().setInsertList(list);
+                }
             }
         });
     }

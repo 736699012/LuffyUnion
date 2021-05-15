@@ -17,6 +17,7 @@ import com.example.taobaounion.R;
 import com.example.taobaounion.model.bean.IBaseInfo;
 import com.example.taobaounion.model.bean.ILinearInfo;
 import com.example.taobaounion.model.dao.Collect;
+import com.example.taobaounion.model.dao.UnInsert;
 import com.example.taobaounion.utils.CollectionUtils;
 import com.example.taobaounion.utils.LogUtils;
 import com.example.taobaounion.utils.UrlUtil;
@@ -59,7 +60,11 @@ public class HomePagerContentAdapter extends RecyclerView.Adapter<HomePagerConte
         });
         loseTv.setOnClickListener(v -> {
             if (mOnItemClickListen != null) {
-                mOnItemClickListen.onLoseClick(position, dataBean);
+                UnInsert unInsert = new UnInsert();
+                unInsert.setTitle(dataBean.getTitle());
+                unInsert.setUrl(dataBean.getLink());
+                unInsert.setCoverUrl(dataBean.getPict_url());
+                mOnItemClickListen.onLoseClick(position, dataBean, unInsert);
             }
         });
     }
@@ -155,6 +160,6 @@ public class HomePagerContentAdapter extends RecyclerView.Adapter<HomePagerConte
     public interface OnItemClickListen {
         void onItemClickListen(IBaseInfo dataBean);
 
-        void onLoseClick(int pos, ILinearInfo dataBean);
+        void onLoseClick(int pos, ILinearInfo dataBean, UnInsert unInsert);
     }
 }

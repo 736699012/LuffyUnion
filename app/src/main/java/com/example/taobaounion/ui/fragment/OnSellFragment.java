@@ -12,6 +12,7 @@ import com.example.taobaounion.R;
 import com.example.taobaounion.base.BaseFragment;
 import com.example.taobaounion.model.bean.IBaseInfo;
 import com.example.taobaounion.model.bean.OnSellContent;
+import com.example.taobaounion.model.dao.UnInsert;
 import com.example.taobaounion.presenter.interfaces.IOnSellPresenter;
 import com.example.taobaounion.ui.adapter.OnSellContentAdapter;
 import com.example.taobaounion.utils.LogUtils;
@@ -89,14 +90,20 @@ public class OnSellFragment extends BaseFragment implements IOnSellCallBack, OnS
         mIOnSellPresenter.registerViewCallBack(this);
         mIOnSellPresenter.getContent();
     }
+//
+//    @Override
+//    public void onContentLoaded(OnSellContent content) {
+////        得到内容
+//
+//        List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> data = content.getData().getTbk_dg_optimus_material_response().getResult_list().getMap_data();
+//        Utils.filterList(data);
+//
+//    }
 
     @Override
-    public void onContentLoaded(OnSellContent content) {
-//        得到内容
+    public void onContentLoaded(List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> list, List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> beanList) {
         stateChange(State.SUCCESS);
-        List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> data = content.getData().getTbk_dg_optimus_material_response().getResult_list().getMap_data();
-        Utils.filterList(data);
-        mContentAdapter.setData(data);
+        mContentAdapter.setData(list);
     }
 
     @Override
@@ -141,6 +148,10 @@ public class OnSellFragment extends BaseFragment implements IOnSellCallBack, OnS
 
     @Override
     public void onLoseClick(int position, IBaseInfo dataBean) {
-
+        UnInsert unInsert = new UnInsert();
+        unInsert.setCoverUrl(dataBean.getPict_url());
+        unInsert.setUrl(dataBean.getLink());
+        unInsert.setTitle(dataBean.getTitle());
+        Utils.addUnInsert(unInsert);
     }
 }

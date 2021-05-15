@@ -16,6 +16,7 @@ import com.example.taobaounion.base.BaseFragment;
 import com.example.taobaounion.model.bean.ChoicenessCategories;
 import com.example.taobaounion.model.bean.ChoicenessContent;
 import com.example.taobaounion.model.bean.IBaseInfo;
+import com.example.taobaounion.model.dao.UnInsert;
 import com.example.taobaounion.presenter.interfaces.IChoicenessPresenter;
 import com.example.taobaounion.ui.adapter.ChoicenessCategoriesListAdapter;
 import com.example.taobaounion.ui.adapter.ChoicenessContentAdapter;
@@ -191,5 +192,10 @@ public class ChoicenessFragment extends BaseFragment implements IChoicenessCallB
     @Override
     public void onLoseClick(int position, IBaseInfo dataBean) {
         mContentAdapter.removeData(dataBean, position);
+        UnInsert unInsert = new UnInsert();
+        unInsert.setCoverUrl(dataBean.getPict_url());
+        unInsert.setUrl(dataBean.getLink());
+        unInsert.setTitle(dataBean.getTitle());
+        Utils.addUnInsert(unInsert);
     }
 }

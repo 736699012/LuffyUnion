@@ -4,12 +4,18 @@ import androidx.annotation.NonNull;
 
 import com.example.taobaounion.model.Api;
 import com.example.taobaounion.model.bean.OnSellContent;
+import com.example.taobaounion.model.dao.Collect;
+import com.example.taobaounion.model.dao.UnInsert;
 import com.example.taobaounion.presenter.interfaces.IOnSellPresenter;
+import com.example.taobaounion.utils.CollectManger;
 import com.example.taobaounion.utils.LogUtils;
 import com.example.taobaounion.utils.RetrofitManger;
+import com.example.taobaounion.utils.UnInsertManger;
 import com.example.taobaounion.view.IOnSellCallBack;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,11 +89,55 @@ public class OnSellPresenterImpl implements IOnSellPresenter {
             } else {
                 LogUtils.d(this, "onContentLoaded..." + mCurrentPage);
                 if (mCurrentPage == 1) {
-                    mCallback.onContentLoaded(content);
+                    List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> data = content.getData().getTbk_dg_optimus_material_response().getResult_list().getMap_data();
+                    List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> beans = unInsertData(data);
+                    List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> recommend = recommend(beans);
+                    mCallback.onContentLoaded(beans, recommend);
                 } else {
                     mCallback.onMoreLoaded(content);
                 }
             }
+        }
+    }
+
+    private List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> unInsertData(List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> recommend) {
+        List<UnInsert> insertList = UnInsertManger.getInstance().getInsertList();
+        List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> newList = new ArrayList<>();
+        if (insertList != null && insertList.size() > 0) {
+            for (OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean rec : recommend) {
+                boolean isUnInsert = false;
+                for (UnInsert unInsert : insertList) {
+                    if (unInsert.getTitle().equals(rec.getTitle())) {
+                        isUnInsert = true;
+                        break;
+                    }
+                }
+                if (!isUnInsert) {
+                    newList.add(rec);
+                }
+
+            }
+            return newList;
+        } else {
+            return recommend;
+        }
+    }
+
+    private List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> recommend(List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> data) {
+        List<Collect> collectList = CollectManger.getInstance().getCollectList();
+        List<OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean> newList = new ArrayList<>();
+        if (collectList != null && collectList.size() > 0) {
+            Collect collect = collectList.get(0);
+            String title = collect.getTitle();
+            String substring = title.substring(0, 4);
+            for (OnSellContent.DataBean.TbkDgOptimusMaterialResponseBean.ResultListBean.MapDataBean bean : data) {
+                if (bean.getTitle().contains(substring)) {
+                    newList.add(bean);
+                }
+            }
+            return newList;
+        } else {
+            return data;
         }
     }
 

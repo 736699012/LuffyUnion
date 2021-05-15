@@ -12,6 +12,7 @@ import com.example.taobaounion.presenter.impl.PersonDescPresenterImpl;
 import com.example.taobaounion.presenter.impl.RegisterPresenterImpl;
 import com.example.taobaounion.presenter.impl.SearchPresenterImpl;
 import com.example.taobaounion.presenter.impl.TicketPresentImpl;
+import com.example.taobaounion.presenter.impl.UnInsertPresenterImpl;
 import com.example.taobaounion.presenter.interfaces.ICategoryPagerPresenter;
 import com.example.taobaounion.presenter.interfaces.IChoicenessPresenter;
 import com.example.taobaounion.presenter.interfaces.ICollectionPresenter;
@@ -24,6 +25,7 @@ import com.example.taobaounion.presenter.interfaces.IPersonDescPresenter;
 import com.example.taobaounion.presenter.interfaces.IRegisterPresenter;
 import com.example.taobaounion.presenter.interfaces.ISearchPresenter;
 import com.example.taobaounion.presenter.interfaces.ITicketPresenter;
+import com.example.taobaounion.presenter.interfaces.IUnInsertPresenter;
 
 public class PresentManger {
     private static final PresentManger ourInstance = new PresentManger();
@@ -39,6 +41,7 @@ public class PresentManger {
     private final IFlashSalePresenter mFlashSalePresenter;
     private final ILoginPresenter mLoginPresenter;
     private final IRegisterPresenter mRegisterPresenter;
+    private final IUnInsertPresenter mIUnInsertPresenter;
 
     public IPersonDescPresenter getPersonDescPresenter() {
         return mPersonDescPresenter;
@@ -101,6 +104,11 @@ public class PresentManger {
         mFlashSalePresenter = new FlashSalePresenterImpl();
         mLoginPresenter = new LoginPresenterImpl();
         mRegisterPresenter = new RegisterPresenterImpl();
+        mIUnInsertPresenter = new UnInsertPresenterImpl();
+    }
+
+    public IUnInsertPresenter getIUnInsertPresenter() {
+        return mIUnInsertPresenter;
     }
 
     public IFootPrintPresenter getFootPrintPresenter() {
