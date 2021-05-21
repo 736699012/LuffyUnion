@@ -39,6 +39,7 @@ class SplashActivity : AppCompatActivity(), ILoginCallBack {
     override fun onLoginSuccess() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     override fun onLoginError() {

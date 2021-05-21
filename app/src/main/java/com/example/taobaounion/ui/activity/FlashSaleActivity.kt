@@ -73,6 +73,7 @@ class FlashSaleActivity : BaseActivity(), FlashSaleAdapter.OnFlashSaleItemClickL
     }
 
     override fun onSuccess(list: MutableList<FlashCoupon>?) {
+        list?.reverse()
         flashSaleAdapter?.setData(list)
         flash_loading.visibility = View.GONE
         flash_empty.visibility = View.GONE

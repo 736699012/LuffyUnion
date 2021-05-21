@@ -25,7 +25,7 @@ public class TextFlowLayout extends ViewGroup {
     private int mItemHeight;
     private OnFlowItemClickListen mOnFlowItemClickListen;
 
-    public int getTextFlowSize(){
+    public int getTextFlowSize() {
         return mTextList.size();
     }
 
@@ -69,7 +69,7 @@ public class TextFlowLayout extends ViewGroup {
         removeAllViews();
         this.mTextList.addAll(textList);
         Collections.reverse(mTextList);
-        LogUtils.d(this,"size ==" + mTextList.size());
+        LogUtils.d(this, "size ==" + mTextList.size());
         for (String text : mTextList) {
             TextView view = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.flow_text_view, this, false);
             view.setText(text);
@@ -90,7 +90,7 @@ public class TextFlowLayout extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (getChildCount()==0)
+        if (getChildCount() == 0)
             return;
 //        LogUtils.d(this, "onMeasure ..." + getChildCount());
         lines.clear();
@@ -106,19 +106,19 @@ public class TextFlowLayout extends ViewGroup {
             child.getMeasuredWidth();
 //            LogUtils.d(this, "child ..." + child.getMeasuredWidth());
             if (line == null) {
-                line =createNewLine(child);
+                line = createNewLine(child);
             } else {
                 if (canBeAdd(child, line)) {
                     line.add(child);
-                }else{
+                } else {
                     line = createNewLine(child);
                 }
             }
         }
 //        测量自己
         mItemHeight = getChildAt(0).getMeasuredHeight();
-        int mSelfHeight = (int) (lines.size() * getChildAt(0).getMeasuredHeight() +(lines.size()+1)*mItemHorizontalSpace);
-        setMeasuredDimension(mSelfWidth,mSelfHeight);
+        int mSelfHeight = (int) (lines.size() * getChildAt(0).getMeasuredHeight() + (lines.size() + 1) * mItemHorizontalSpace);
+        setMeasuredDimension(mSelfWidth, mSelfHeight);
     }
 
     private List<View> createNewLine(View child) {
@@ -141,7 +141,7 @@ public class TextFlowLayout extends ViewGroup {
         for (View view : line) {
             totalWidth += view.getMeasuredWidth();
         }
-        totalWidth += (line.size()+1) * mItemHorizontalSpace;
+        totalWidth += (line.size() + 1) * mItemHorizontalSpace;
         totalWidth += child.getMeasuredWidth();
 //        LogUtils.d(this, "totalWidth ..." + totalWidth);
         return totalWidth <= mSelfWidth;
@@ -153,20 +153,20 @@ public class TextFlowLayout extends ViewGroup {
 //        开始摆放位置
         int top = (int) mItemVerticalSpace;
         for (List<View> views : lines) {
-            int left  = (int) mItemHorizontalSpace;
+            int left = (int) mItemHorizontalSpace;
             for (View view : views) {
-                view.layout(left,top,left + view.getMeasuredWidth(),top+view.getMeasuredHeight());
-                left += view.getMeasuredWidth()+mItemHorizontalSpace;
+                view.layout(left, top, left + view.getMeasuredWidth(), top + view.getMeasuredHeight());
+                left += view.getMeasuredWidth() + mItemHorizontalSpace;
             }
             top += mItemHeight + mItemVerticalSpace;
         }
     }
 
-    public void setOnFlowItemClickListen(OnFlowItemClickListen onFlowItemClickListen){
+    public void setOnFlowItemClickListen(OnFlowItemClickListen onFlowItemClickListen) {
         mOnFlowItemClickListen = onFlowItemClickListen;
     }
 
-    public interface OnFlowItemClickListen{
+    public interface OnFlowItemClickListen {
         void onFlowItemClick(String text);
     }
 }

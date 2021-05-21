@@ -19,7 +19,6 @@ import com.example.taobaounion.model.bean.ILinearInfo;
 import com.example.taobaounion.model.dao.Collect;
 import com.example.taobaounion.model.dao.UnInsert;
 import com.example.taobaounion.utils.CollectionUtils;
-import com.example.taobaounion.utils.LogUtils;
 import com.example.taobaounion.utils.UrlUtil;
 
 import java.util.ArrayList;
@@ -37,14 +36,14 @@ public class HomePagerContentAdapter extends RecyclerView.Adapter<HomePagerConte
     @Override
     public InnerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_pager_content, parent, false);
-        LogUtils.d(this, "onCreateViewHolder...");
+//        LogUtils.d(this, "onCreateViewHolder...");
         return new InnerHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull InnerHolder holder, int position) {
         ILinearInfo dataBean = mDataBeans.get(position);
-        LogUtils.d(this, "onBindViewHolder..." + position);
+//        LogUtils.d(this, "onBindViewHolder..." + position);
         holder.setData(dataBean);
         TextView loseTv = holder.itemView.findViewById(R.id.lose_interest_tv);
         RelativeLayout lose = holder.itemView.findViewById(R.id.lose_interest);

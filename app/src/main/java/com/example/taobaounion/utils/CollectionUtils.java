@@ -27,7 +27,7 @@ public class CollectionUtils {
         final boolean[] isCollectI = {collect != collectionBean};
         if (isCollectI[0]) {
             imageView.setImageResource(R.mipmap.collected);
-        }else{
+        } else {
             imageView.setImageResource(R.mipmap.collect);
         }
         imageView.setOnClickListener(v -> {
@@ -47,6 +47,9 @@ public class CollectionUtils {
 
         mCollectionPresenter = PresentManger.getInstance().getCollectionPresenter();
         List<Collect> collectList = CollectManger.getInstance().getCollectList();
+        if (collectList == null) {
+            return collect;
+        }
         for (Collect data : collectList) {
             if (data.equals(collect)) {
                 return data;
@@ -65,7 +68,7 @@ public class CollectionUtils {
             public void done(List<Collect> list, BmobException e) {
                 if (e == null) {
                     List<Collect> filter = new ArrayList<>();
-                    if(list != null){
+                    if (list != null) {
                         for (Collect temp : list) {
                             if (temp.getUserId().equals(UserManger.getInstance().getUser().getObjectId())) {
                                 filter.add(temp);
